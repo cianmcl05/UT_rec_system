@@ -1,0 +1,62 @@
+from bs4 import BeautifulSoup
+import requests
+
+
+url = "https://ut.smartcatalogiq.com/en/current/catalog/undergraduate-catalog/college-of-social-sciences-mathematics-and-education/department-of-mathematics/data-science-major/"
+
+
+page = requests.get(url)
+# print(page)
+
+soup = BeautifulSoup(page.text, 'html')
+
+
+table = soup.find('table')
+classes = table.find_all('td')
+
+
+
+x = [title.text for title in classes]
+
+
+class_code = x[:-2:3]
+class_name = x[1:-2:3]
+credit_hours = x[2::3]
+
+print(class_code)
+print(class_name)
+print(credit_hours)
+
+
+#########################################
+
+# table = soup.find_all('table')[1]
+# classes = table.find_all('td')
+# 
+# 
+# 
+# x = [title.text for title in classes]
+# 
+# 
+# e1_class_code = x[:-2:3]
+# class_name = x[1:-2:3]
+# credit_hours = x[2::3]
+# 
+# print(class_code)
+# print(class_name)
+# print(credit_hours)
+
+
+
+###########################################
+
+url2 = "https://ut.smartcatalogiq.com/en/current/catalog/undergraduate-catalog/college-of-social-sciences-mathematics-and-education/department-of-mathematics/"
+
+page2 = requests.get(url2)
+soup2 = BeautifulSoup(page2.text, 'html')
+
+links = soup2.find_all('a')[-6:]
+
+y = [link.text for link in links]
+print(y)
+
