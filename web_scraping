@@ -5,58 +5,94 @@ import requests
 url = "https://ut.smartcatalogiq.com/en/current/catalog/undergraduate-catalog/college-of-social-sciences-mathematics-and-education/department-of-mathematics/data-science-major/"
 
 
+
+##### this section prints the data science requirements 
+
 page = requests.get(url)
-# print(page)
-
-soup = BeautifulSoup(page.text, 'html')
-
-
+soup = BeautifulSoup(page.text, 'html.parser')
 table = soup.find('table')
 classes = table.find_all('td')
 
 
-
+# grabs text in table and stores in list
 x = [title.text for title in classes]
 
 
+# organizes lists into each column
 class_code = x[:-2:3]
 class_name = x[1:-2:3]
-credit_hours = x[2::3]
+credit_hours = x[2:-2:3]
 
+# prints each column
 print(class_code)
 print(class_name)
 print(credit_hours)
 
 
-#########################################
+##################################################################
 
-# table = soup.find_all('table')[1]
-# classes = table.find_all('td')
-# 
-# 
-# 
-# x = [title.text for title in classes]
-# 
-# 
-# e1_class_code = x[:-2:3]
-# class_name = x[1:-2:3]
-# credit_hours = x[2::3]
-# 
-# print(class_code)
-# print(class_name)
-# print(credit_hours)
+
+#### this section is for the electives
+
+
+table = soup.find_all('table')[1]
+classes = table.find_all('td')
 
 
 
-###########################################
+z = [title.text for title in classes]
+
+
+e1_class_code = x[:-2:3]
+class_name = x[1:-2:3]
+credit_hours = x[2::3]
+
+print(e1_class_code)
+print(class_name)
+print(credit_hours)
+
+
+
+##################################################################
+
+##### this section creates a dictionary for data science and its courses
+##### also prints out the math department majors/minors
+
 
 url2 = "https://ut.smartcatalogiq.com/en/current/catalog/undergraduate-catalog/college-of-social-sciences-mathematics-and-education/department-of-mathematics/"
 
 page2 = requests.get(url2)
-soup2 = BeautifulSoup(page2.text, 'html')
+soup2 = BeautifulSoup(page2.text, 'html.parser')
 
 links = soup2.find_all('a')[-6:]
 
 y = [link.text for link in links]
-print(y)
+# print(y)
 
+
+class_dict = {y[-1]: x}
+
+print(class_dict)
+
+
+
+
+
+table = soup.find_all('a', class_ = 'sc-courselink')
+# for link in table:
+#     print(link.get('href'))
+
+
+
+
+
+
+url2 = "https://ut.smartcatalogiq.com/en/current/catalog/undergraduate-catalog/college-of-social-sciences-mathematics-and-education/department-of-mathematics/"
+
+page2 = requests.get(url2)
+soup2 = BeautifulSoup(page2.text, 'html.parser')
+
+links = soup2.find_all('a')[-6:]
+
+w = [link.text for link in links]
+print(w)
